@@ -1,0 +1,33 @@
+<!-- 
+    ROS navigation stack with velocity smoother and safety (reactive) controller
+-->
+<launch>
+
+<!--
+  <include file="$(find diff_wheeled_robot_gazebo)/launch/includes/velocity_smoother.launch.xml"/>
+  <include file="$(find diff_wheeled_robot_gazebo)/launch/includes/safety_controller.launch.xml"/>
+-->
+
+  <arg name="odom_topic" default="odom" />
+  <arg name="plan" default="dwa" />
+  <arg name="p1" default="#" />
+  <arg name="p2" default="#" />
+  <arg name="p3" default="#" />
+  <arg name="p4" default="#" />
+  <arg name="p5" default="#" />
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <rosparam file="$(find robot_navigation)/param/cc.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find robot_navigation)/param/cc.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find robot_navigation)/param/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find robot_navigation)/param/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find robot_navigation)/param/$(arg plan)_local_planner_params.yaml" command="load"/>
+    <rosparam file="$(find robot_navigation)/param/global_planner_params.yaml" command="load"/>
+    <rosparam file="$(find robot_navigation)/param/move_base_params.yaml" command="load" subst_value="true"/>
+
+<!--
+    <remap from="cmd_vel" to="navigation_velocity_smoother/raw_cmd_vel"/>
+    <remap from="odom" to="$(arg odom_topic)"/>
+-->
+
+  </node>
+</launch>

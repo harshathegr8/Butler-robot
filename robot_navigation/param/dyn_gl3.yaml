@@ -1,0 +1,3 @@
+ lethal_cost: 225                     # default 253
+ neutral_cost: 50                              # default 50
+ cost_factor: 3.0 

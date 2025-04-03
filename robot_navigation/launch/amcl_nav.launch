@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<launch>
+	<arg name='delay1' default='3'/>
+	<arg name="plan" default="dwa" />
+	<arg name="st"     default="scan"/>
+	<arg name="vl" default = "false"/>
+	<arg name="world" default = "$(find memory)/Worlds/Hotel.world"/>
+	<include file="$(find robot_navigation)/launch/robot.launch">
+		<arg name="world" value ="$(arg world)"/>
+		<arg name="viv" value="$(arg vl)"/>
+	</include>
+	<include file="$(find robot_navigation)/launch/amcl.launch">
+		<arg name="map_file" value="$(find memory)/local_maps/Hotel.yaml"/>
+		<arg name="plan" value="$(arg plan)"/>
+		<arg name="scan_topic"     default="$(arg st)"/>
+	</include>
+	<node name="Server" type="server.py" pkg="robot_navigation"/>
+	<!--<include file="$(find robot_navigation)/launch/includes/my_laser_filter.launch"/>-->
+	<!--<node name="rqt_graph" type = "rqt_graph" pkg="rqt_graph" launch-prefix="bash -c 'sleep $(arg delay1); $0 $@' "/>-->
+</launch>

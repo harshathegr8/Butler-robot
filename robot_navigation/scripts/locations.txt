@@ -1,0 +1,102 @@
+home
+goal: 
+  target_pose: 
+    header: 
+      seq: 0
+      stamp: 
+        secs: 552
+        nsecs: 458000000
+      frame_id: "map"
+    pose: 
+      position: 
+        x: -5.917774677276611
+        y: 3.025883197784424
+        z: 0.0
+      orientation: 
+        x: 0.0
+        y: 0.0
+        z: -0.011848303790638982
+        w: 0.9999298063850706
+---
+
+
+Kitchen
+goal: 
+  target_pose: 
+    header: 
+      seq: 1
+      stamp: 
+        secs: 605
+        nsecs: 543000000
+      frame_id: "map"
+    pose: 
+      position: 
+        x: -6.593123912811279
+        y: -4.76052713394165
+        z: 0.0
+      orientation: 
+        x: 0.0
+        y: 0.0
+        z: -0.04910203355782901
+        w: 0.9987937676520042
+Table1
+goal: 
+  target_pose: 
+    header: 
+      seq: 3
+      stamp: 
+        secs: 655
+        nsecs: 119000000
+      frame_id: "map"
+    pose: 
+      position: 
+        x: 4.198648929595947
+        y: -4.5905866622924805
+        z: 0.0
+      orientation: 
+        x: 0.0
+        y: 0.0
+        z: -0.02406874683506601
+        w: 0.999710305751516
+
+
+Table2
+goal: 
+  target_pose: 
+    header: 
+      seq: 2
+      stamp: 
+        secs: 627
+        nsecs: 189000000
+      frame_id: "map"
+    pose: 
+      position: 
+        x: 3.284440040588379
+        y: 0.3772444725036621
+        z: 0.0
+      orientation: 
+        x: 0.0
+        y: 0.0
+        z: -0.014928150547790033
+        w: 0.999888568952172
+
+Table3
+goal: 
+  target_pose: 
+    header: 
+      seq: 4
+      stamp: 
+        secs: 681
+        nsecs:  26000000
+      frame_id: "map"
+    pose: 
+      position: 
+        x: 3.595571994781494
+        y: 4.586675643920898
+        z: 0.0
+      orientation: 
+        x: 0.0
+        y: 0.0
+        z: 0.0639926354087079
+        w: 0.9979503708168298
+

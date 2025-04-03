@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="mov_b" default = 'true'/>
+  <arg name="scan_topic" default="scan" />
+  <arg name="plan" default="dwa" />
+  <include file="$(find diff_robot)/launch/includes/gmapping.launch.xml">
+  	<arg name="scan_topic" value="$(arg scan_topic)" />
+  </include>
+  <group if = "$(eval arg('mov_b') == true)">
+  	<group if="$(eval arg('plan') == 'dwa')">
+  		<include file="$(find diff_robot)/launch/includes/move_base.launch.xml" >
+  			<arg name="p1" value="" />
+  			<arg name="plan" value="$(arg plan)" />
+  		</include>
+  	</group>
+  	<group if="$(eval arg('plan') == 'ppa')">
+  		<include file="$(find diff_robot)/launch/includes/move_base.launch.xml" >
+  			<arg name="p2" value="" />
+  			<arg name="plan" value="$(arg plan)" />
+  		</include>
+  	</group>
+  	<group if="$(eval arg('plan') == 'car')">
+  		<include file="$(find diff_robot)/launch/includes/move_base.launch.xml" >
+  			<arg name="p3" value="" />
+  			<arg name="plan" value="$(arg plan)" />
+  		</include>
+  	</group>
+  </group>
+  
+  <node type = 'rviz' name = 'rviz' pkg='rviz' output ="screen" args="-d $(find diff_robot)/rviz/map_making.rviz"/>
+</launch>
