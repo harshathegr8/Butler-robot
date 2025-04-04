@@ -4,12 +4,22 @@
 	<arg name="plan" default="dwa" />
 	<arg name="st"     default="scan_filtered"/>
 	<arg name="vl" default = "false"/>
+	<arg name="x" default="-5.917774677276611"/>
+        <arg name="y" default="3.025883197784424"/>
+        <arg name="z" default="0"/>
+        <arg name="yaw" default="0"/>
 	<arg name="world" default = "$(find memory)/Worlds/Hotel.world"/>
 	<include file="$(find robot_navigation)/launch/robot.launch">
 		<arg name="world" value ="$(arg world)"/>
 		<arg name="viv" value="$(arg vl)"/>
+		<arg name="x" value="$(arg x)"/>
+		<arg name="y" value="$(arg y)"/>
+		<arg name="z" value="$(arg z)"/>
+		<arg name="yaw" value="$(arg yaw)"/>
 	</include>
 	<include file="$(find robot_navigation)/launch/amcl.launch">
+		<arg name="initial_pose_x" value="$(arg x)"/>
+		<arg name="initial_pose_y" value="$(arg y)"/>
 		<arg name="map_file" value="$(find memory)/local_maps/Hotel.yaml"/>
 		<arg name="plan" value="$(arg plan)"/>
 		<arg name="scan_topic"     default="$(arg st)"/>
