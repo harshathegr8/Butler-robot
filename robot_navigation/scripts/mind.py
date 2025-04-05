@@ -43,9 +43,14 @@ def callback3(data):
         
     order = data.data
     menu,no,table = order.split(":")
-    if order_list[order]=="Delievering":
+    if order_list[order]=="Delivering":
         order_list[order]="Cancelled return to kitchen"
         goal_list.remove(table)
+        if goal_list==[]:
+            goal_list.append("Home")
+            talker("Kitchen")
+        else:
+            talker(goal_list[0])
         
     elif order_list[order]=="Preparing":
         order_list[order]="Cancelled at kitchen"
