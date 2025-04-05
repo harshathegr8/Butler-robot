@@ -22,22 +22,39 @@ def callback(data):
     	room = "Kitchen"
     	goal_list.append(room)
     	talker(room)
+    elif goal_list[-1]!="Kitchen":
+    	room = "Kitchen"
+    	goal_list.append(room)
+    	talker(room)
+    	
     	
 def callback3(data):
     global order_list,goal_list
     cancel_pub = rospy.Publisher('/move_base/cancel', GoalID, queue_size=10)
     
     cancel_msg = GoalID()
-    cancel_pub.publish(cancel_msg)
-    global order_list,goal_list
+    c=0
+    rate = rospy.Rate(10) # 10hz
+    while not rospy.is_shutdown():
+        cancel_pub.publish(cancel_msg)
+        rate.sleep()
+        c+=1
+        if c>10:break
+        
     order = data.data
     menu,no,table = order.split(":")
-    if table in goal_list:
+    if order_list[order]=="Delievering":
+        order_list[order]="Cancelled return to kitchen"
         goal_list.remove(table)
-        if order_list[order]=="Delievering":
-            order_list[order]="Cancelled return to kitchen"
-        elif order_lisr[order]=="Preparing":
-            order_list[order]="Cancelled at kitchen"
+        
+    elif order_list[order]=="Preparing":
+        order_list[order]="Cancelled at kitchen"
+        if len(goal_list)==1:
+            goal_list.remove("Kitchen")
+            talker("Home")
+        
+        
+        
     
     
 def talker(room):
@@ -59,14 +76,19 @@ def callback2(data):
     	goal_list = goal_list[1:]
     	if room=="Kitchen" and goal_list==[]:
     	    for i in order_list.keys():
-    	        order_list[i] = "Delivering"
-    	        menu,no,table = i.split(":")
-    	        goal_list.append(table)
+    	    	if order_list[i]=="Preparing":
+    	            order_list[i] = "Delivering"
+    	            menu,no,table = i.split(":")
+    	            goal_list.append(table)
     	    talker(goal_list[0])
     	elif goal_list==[]:
     	    if "Cancelled return to kitchen" in order_list.values():
     	    	for i in order_list.keys():
-    	    	    order_list[i] ="Delievered"
+    	    	    if order_list[i] =="Delivering":
+    	    	    	order_list[i] ="Delievered"
+    	    	    elif order_list[i]=="Cancelled return to kitchen":
+    	            	order_list[i] ="Cancelled"
+    	            	goal_list.append("Home")
     	    	talker("Kitchen")
     	    else:
     	    	for i in order_list.keys():
