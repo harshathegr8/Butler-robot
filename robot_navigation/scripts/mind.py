@@ -7,11 +7,7 @@ from std_msgs.msg import String
 from actionlib_msgs.msg import GoalStatusArray,GoalID
 global order_list,goal_list
 order_list = {}
-goal_list = []
-class var:
-    def __init__(self):
-    	self.val = 0
-Rooms = ["Kitchen","Table1","Table2","Table3","Home"]
+goal_list = []	
 
 def callback(data):
     global order_list,goal_list
@@ -25,13 +21,12 @@ def callback(data):
     elif goal_list[-1]!="Kitchen":
     	room = "Kitchen"
     	goal_list.append(room)
-    	talker(room)
-    	
+    	talker(room)  	
+  
     	
 def callback3(data):
     global order_list,goal_list
     cancel_pub = rospy.Publisher('/move_base/cancel', GoalID, queue_size=10)
-    
     cancel_msg = GoalID()
     c=0
     rate = rospy.Rate(10) # 10hz
@@ -39,8 +34,7 @@ def callback3(data):
         cancel_pub.publish(cancel_msg)
         rate.sleep()
         c+=1
-        if c>10:break
-        
+        if c>10:break    
     order = data.data
     menu,no,table = order.split(":")
     if order_list[order]=="Delivering":
@@ -54,13 +48,12 @@ def callback3(data):
         
     elif order_list[order]=="Preparing":
         order_list[order]="Cancelled at kitchen"
-        if len(goal_list)==1:
+        a = [i for i in order_list.values() if i=="Preparing"]
+        if len(goal_list)==1 and a==[]:
             goal_list.remove("Kitchen")
             talker("Home")
-        
-        
-        
-    
+        else:
+            talker(goal_list[0])
     
 def talker(room):
     pub = rospy.Publisher("goal_robot", String,queue_size=0)
@@ -90,7 +83,7 @@ def callback2(data):
     	    if "Cancelled return to kitchen" in order_list.values():
     	    	for i in order_list.keys():
     	    	    if order_list[i] =="Delivering":
-    	    	    	order_list[i] ="Delievered"
+    	    	    	order_list[i] ="Delivered"
     	    	    elif order_list[i]=="Cancelled return to kitchen":
     	            	order_list[i] ="Cancelled"
     	            	goal_list.append("Home")
@@ -103,7 +96,6 @@ def callback2(data):
     	else:
     	    talker(goal_list[0])
     	
-
 def listener():
     global processing, new_msg, msg
     # In ROS, nodes are uniquely named. If two nodes with the same
